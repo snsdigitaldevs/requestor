@@ -1,7 +1,9 @@
-module InternetsRequestor
-  class Base
+module Requestor
+  class InternetsBase
+    
+
   
-    def initialize(full_url, username = nil, password = nil)
+    def initialize(full_url, username = "", password = "")
       @full_url = full_url
       @username = username
       @password = password
@@ -36,13 +38,13 @@ module InternetsRequestor
       #   request.set_form_data(form_data)
       # end
     
-      request.basic_auth(@username, @password) unless @username.blank?
+      request.basic_auth(@username, @password) unless @username.empty?
       request
     end
 
     def check(response)
-      raise(Gateways::ResponseError, "Response was #{response.class} for #{@full_url}") unless response.class == Net::HTTPOK
-      raise(Gateways::ResponseError, "Response body was blank for #{@full_url}") if response.body.blank?
+      raise(Requestor::ResponseError, "Response was #{response.class} for #{@full_url}") unless response.class == Net::HTTPOK
+      raise(Requestor::ResponseError, "Response body was blank for #{@full_url}") if response.body.empty?
       return response
     end
 
