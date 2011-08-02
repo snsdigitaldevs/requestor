@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    requestor (0.0.1)
+    requestor (0.0.4a)
 
 GEM
   remote: http://rubygems.org/
