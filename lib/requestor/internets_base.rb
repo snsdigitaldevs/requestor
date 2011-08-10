@@ -1,7 +1,7 @@
 module Requestor
   class InternetsBase
     include Requestor::Hookifier
-    #include Requestor::InternetsBaseHooks
+    include Requestor::InternetsBaseHooks
   
     def initialize(full_url, username = "", password = "")
       @full_url = full_url
