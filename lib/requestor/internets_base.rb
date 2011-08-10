@@ -26,6 +26,8 @@ module Requestor
     #   end
     #   check(response).body
     # end
+    
+    hooked_methods :get
   
     private
 
