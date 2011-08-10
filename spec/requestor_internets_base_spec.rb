@@ -1,18 +1,18 @@
-require File.dirname(__FILE__) + 'spec_helper'
+require File.dirname(__FILE__) + '/spec_helper'
 
-describe "InternetsRequestor" do
+describe "Requestor::InternetsBase" do
 
   describe "get" do
     
     before(:each) do
-      @requestor = InternetsRequestor.new("http://www.simon.com/blah.html?anything=1")
+      @requestor = Requestor::InternetsBase.new("http://www.simon.com/blah.html?anything=1")
     end
     
     it "should make a get request" do
       @requestor.stub!(:check).and_return mock(:response, :body => nil)
       Net::HTTP.stub!(:start)
       
-      Net::HTTP::Get.should_receive(:new).and_return mock(:request)
+      Net::HTTP::Get.should_receive(:new).with("/blah.html?anything=1").and_return mock(:request)
       @requestor.get
     end
   
@@ -29,7 +29,7 @@ describe "InternetsRequestor" do
       Net::HTTP.stub!(:start).and_return(response)      
       lambda{
         @requestor.get
-      }.should raise_error(Gateways::ResponseError, "Response was Net::HTTPInternalServerError for http://www.simon.com/blah.html?anything=1")
+      }.should raise_error(Requestor::ResponseError, "Response was Net::HTTPInternalServerError for http://www.simon.com/blah.html?anything=1")
     end
     
     it "should raise error if response code is 200 and response body is empty" do
@@ -38,11 +38,11 @@ describe "InternetsRequestor" do
       response.stub!(:body).and_return('')
       lambda{
         @requestor.get
-      }.should raise_error(Gateways::ResponseError, "Response body was blank for http://www.simon.com/blah.html?anything=1")
+      }.should raise_error(Requestor::ResponseError, "Response body was blank for http://www.simon.com/blah.html?anything=1")
     end
     
     it "should authenticate using basic auth if username is provided" do
-      requestor = InternetsRequestor.new("http://www.simon.com/blah.html?anything=1", "admin", "pass")
+      requestor = Requestor::InternetsBase.new("http://www.simon.com/blah.html?anything=1", "admin", "pass")
       requestor.stub!(:check).and_return mock(:response, :body => nil)
       request = mock("request")
       Net::HTTP.stub!(:start)
