@@ -32,7 +32,7 @@ module Requestor
     # TODO: Add tests for POST method if you need to use it - MRZ & MW
     def request_for(request_method, url, form_data = {})
       # if (request_method == :get)
-        request = Net::HTTP::Get.new(@full_url)
+      request = Net::HTTP::Get.new(url.request_uri)
       # else
       #   request = Net::HTTP::Post.new(url.path)
       #   request.set_form_data(form_data)

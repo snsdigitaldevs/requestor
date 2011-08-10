@@ -12,7 +12,7 @@ describe "Requestor::InternetsBase" do
       @requestor.stub!(:check).and_return mock(:response, :body => nil)
       Net::HTTP.stub!(:start)
       
-      Net::HTTP::Get.should_receive(:new).and_return mock(:request)
+      Net::HTTP::Get.should_receive(:new).with("/blah.html?anything=1").and_return mock(:request)
       @requestor.get
     end
   
