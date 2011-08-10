@@ -4,7 +4,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'rubygems'
 require 'bundler/setup'
 # require 'spec/autorun'
-require 'internets_requestor'
+require 'requestor'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
