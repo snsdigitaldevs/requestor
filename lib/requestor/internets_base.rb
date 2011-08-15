@@ -12,7 +12,8 @@ module Requestor
     def get
       url = URI.parse(@full_url)
       request = request_for(:get, url)
-      response = Net::HTTP.start(url.host, url.port) { |http| http.request(request) }
+      connection = create_http_connection(url)
+      response = connection.start { |http| http.request(request) }
       check(response).body
     end
 
@@ -48,6 +49,13 @@ module Requestor
       raise(Requestor::ResponseError, "Response was #{response.class} for #{@full_url}") unless response.class == Net::HTTPOK
       raise(Requestor::ResponseError, "Response body was blank for #{@full_url}") if response.body.empty?
       return response
+    end
+    
+    def create_http_connection(url)
+      connection = Net::HTTP.new(url.host, url.port)
+      connection.open_timeout = 120
+      connection.read_timeout = 120
+      connection
     end
 
   end
